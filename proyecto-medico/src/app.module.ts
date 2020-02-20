@@ -8,11 +8,13 @@ import { DoctorEntity } from './doctor/doctor.entity';
 import { PacienteModule } from './paciente/paciente.module';
 import { CitaModule } from './cita/cita.module';
 import { DoctorModule } from './doctor/doctor.module';
+import { DoctorService } from './doctor/doctor.service';
+import { DoctorController } from './doctor/doctor.controller';
 
 @Module({
   imports: [
-    PacienteModule,
     CitaModule,
+    PacienteModule,
     DoctorModule,
     TypeOrmModule.forRoot(
       {
@@ -32,7 +34,13 @@ import { DoctorModule } from './doctor/doctor.module';
       },
     ),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController,
+  ],
+  providers: [AppService,
+  ],
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {
+
+  }
+}

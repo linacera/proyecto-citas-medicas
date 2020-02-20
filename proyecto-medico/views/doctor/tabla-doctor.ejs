@@ -1,0 +1,43 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Apellido</th>
+        <th scope="col">Telefono</th>
+        <th scope="col">Especialidad</th>
+        <th scope="col">Direccion</th>
+    </tr>
+    </thead>
+    <tbody  async="true">
+    <%     doctores.forEach( (doctor) => {%>
+        <tr>
+            <th scope="row"><%= doctor.id%></th>
+            <td><%= doctor.nombre%></td>
+            <td><%= doctor.apellido%></td>
+            <td><%= doctor.especialidad%></td>
+            <td><%= doctor.telefono%></td>
+            <td><%= doctor.direccion%></td>
+            <td>
+                <a href="doctor/edit-doctor/<%= doctor.id %>">
+                    <button type="button"
+                            class="btn btn-info">
+                        Editar
+                    </button>
+                </a>
+
+                <a>
+                    <form action="/doctor/delete/<%= doctor.id %>"
+                          method="POST">
+                        <button type="submit"
+                                class="btn btn-danger">
+                            Eliminar
+                        </button>
+                    </form>
+                </a>
+
+            </td>
+        </tr>
+    <%}); %>
+    </tbody>
+</table>

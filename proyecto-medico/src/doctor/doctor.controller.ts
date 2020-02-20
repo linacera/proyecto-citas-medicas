@@ -7,7 +7,7 @@ import { DoctorEntity } from './doctor.entity';
 import { validate } from 'class-validator';
 
 
-@Controller()
+@Controller('doctor')
 export class DoctorController {
 
   constructor(
@@ -15,6 +15,12 @@ export class DoctorController {
   ){
 
   }
+
+  @Get('holi')
+  async holi(){
+    console.log('holi')
+  }
+
 
   @Get('mostrar-doctores')
   async rutaMostrarDoctors(
@@ -33,7 +39,7 @@ export class DoctorController {
           apellido: Like('%' + consultaDoctor + '%'),
         },
         {
-          fechaDeNacimiemto: Like('%' + consultaDoctor + '%'),
+          especialidad: Like('%' + consultaDoctor + '%'),
         },
         {
           telefono: Like('%' + consultaDoctor + '%'),
