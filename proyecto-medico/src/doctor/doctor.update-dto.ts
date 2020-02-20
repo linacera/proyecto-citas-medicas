@@ -1,6 +1,7 @@
-import { IsISO8601, IsNotEmpty, IsNumberString, IsString, Length, MaxLength, MinLength } from 'class-validator';
+import { IsNotEmpty, IsNumberString, IsString, Length, MaxLength, MinLength } from 'class-validator';
 
-export class DoctorCreateDto{
+
+export class DoctorUpdateDto {
 
   @IsNotEmpty()
   @IsString()
@@ -28,7 +29,7 @@ export class DoctorCreateDto{
 
   @IsNotEmpty()
   @IsNumberString()
-  @Length(10,10)
+  @Length(9,10)
   telefono: string;
 
 }

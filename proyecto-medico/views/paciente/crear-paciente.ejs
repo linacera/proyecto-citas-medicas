@@ -1,0 +1,104 @@
+<%- include('../shared-views/header')%>
+
+<% const estaEditando = datos.paciente != undefined;%>
+<div class="container">
+    <% if(datos.error){ %>
+        <div class="alert alert-danger" role="alert">
+            <%= datos.error %>
+        </div>
+    <% } %>
+
+    <% if(datos.mensaje){ %>
+        <div class="alert alert-primary" role="alert">
+            <%= datos.mensaje %>
+        </div>
+    <% } %>
+
+
+    <h1> <%= estaEditando? 'Editando a ' + datos.paciente.nombre : 'Crear Paciente'%></h1>
+
+    <form action="/paciente<%= estaEditando ?  '/' + datos.paciente.id : '/crear'%>"
+          method="POST">
+        <div class="form-group">
+            <label for="nombreID">Nombre</label>
+            <input id="nombreID"
+                   type="text"
+                   placeholder="EJ: Johanna"
+                   title="Ingresar nombre paciente"
+                   name="nombre"
+                   value="<%= estaEditando ? datos.paciente.nombre : ''%>"
+                    <%=estaEditando ? 'abled' : ''%>
+                   class="form-control">
+            <small id="nombreIDHelp"
+                   class="form-text text-muted">
+                Ingresa un nombre  mayor a 3 caracteres y menor a 10.
+            </small>
+            <label for="apellidoID">Apellido</label>
+            <input id="apellidoID"
+                   type="text"
+                   placeholder="EJ: Cerezo"
+                   title="Ingresar Apellido"
+                   name="apellido"
+                   value="<%= estaEditando ? datos.paciente.apellido: ''%>"
+                    <%=estaEditando ? 'abled' : ''%>
+                   class="form-control">
+            <small id="apellidoIDHelp"
+                   class="form-text text-muted">
+                Ingresa un apellido  mayor a 3 caracteres.
+            </small>
+            <label for="telefonoID">Telefono</label>
+            <input id="telefonoID"
+                   type="text"
+                   placeholder="EJ: 0751010414"
+                   title="Ingresar telefono"
+                   name="telefono"
+                   value="<%= estaEditando ? + datos.paciente.telefono : ''%>"
+                    <%=estaEditando ? 'abled' : ''%>
+                   class="form-control">
+            <small id="telefonoIDHelp"
+                   class="form-text text-muted">
+                Ingresa una telefono de 10 caracteres.
+            </small>
+            <label for="fechaDeNacimientoID">fechaDeNacimiento</label>
+            <input id="fechaDeNacimientoID"
+                   type="text"
+                   placeholder="EJ: Cerezo"
+                   title="Ingresar Apellido"
+                   name="fechaDeNacimiento"
+                   value="<%= estaEditando ? datos.paciente.fechaDeNacimiento: ''%>"
+                    <%=estaEditando ? 'abled' : ''%>
+                   class="form-control">
+            <small id="fechaDeNacimientoIDHelp"
+                   class="form-text text-muted">
+                Ingresa una fechaDeNacimiento valida.
+            </small>
+            <label for="direccionID">Direccion</label>
+            <input id="direccionID"
+                   type="text"
+                   placeholder="EJ: Cerezo"
+                   title="Ingresar Apellido"
+                   name="direccion"
+                   value="<%= estaEditando ? datos.paciente.direccion: ''%>"
+                    <%=estaEditando ? 'abled' : ''%>
+                   class="form-control">
+            <small id="direccionIDHelp"
+                   class="form-text text-muted">
+                Ingresa una direccion valida.
+            </small>
+        </div>
+        <button type="submit"
+                class="btn btn-danger">
+            <%= estaEditando ?'Editar Paciente' : 'Crear Paciente'%>
+        </button>
+        <button type="reset"
+                class="btn btn-danger">
+            Limpiar formulario
+        </button>
+
+    </form>
+
+
+
+</div>
+
+<%- include('../shared-views/footer')%>

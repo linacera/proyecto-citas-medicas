@@ -16,22 +16,22 @@
     %>
 
     <h1>Lista de Doctores </h1>
-    <a href="/doctor/crear-doctor">
+    <a href="/paciente/crear-paciente">
         <button type="button"
                 class="btn btn-info">
-            Crear doctor
+            Crear paciente
         </button>
     </a>
 
-    <form action="/doctor/mostrar-doctores"
+    <form action="/paciente/mostrar-pacientes"
           method="GET">
         <div>
-            <label for="consultaID">Buscar Doctor</label>
+            <label for="consultaID">Buscar Paciente</label>
             <input id="consultaID"
                    type="text"
                    placeholder="EJ: 0751010414 o Joha"
                    title="Ingresar busqueda por nombre o por cedula"
-                   name="consultaDoctor"
+                   name="consultaPaciente"
                    class="form-control">
             <small id="cedulaIDHelp"
                    class="form-text text-muted">
@@ -41,8 +41,8 @@
 
     </form>
 
-    <%- include('./tabla-doctor',{
-    doctores: datos.doctores
+    <%- include('./tabla-paciente',{
+    pacientes: datos.pacientes
     })
     %>
 

@@ -1,3 +1,4 @@
+
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -8,8 +9,8 @@ import { DoctorEntity } from './doctor/doctor.entity';
 import { PacienteModule } from './paciente/paciente.module';
 import { CitaModule } from './cita/cita.module';
 import { DoctorModule } from './doctor/doctor.module';
-import { DoctorService } from './doctor/doctor.service';
 import { DoctorController } from './doctor/doctor.controller';
+
 
 @Module({
   imports: [
@@ -34,7 +35,7 @@ import { DoctorController } from './doctor/doctor.controller';
       },
     ),
   ],
-  controllers: [AppController,
+  controllers: [AppController, DoctorController,
   ],
   providers: [AppService,
   ],

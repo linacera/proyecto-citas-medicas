@@ -3,11 +3,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, MoreThan, Repository } from 'typeorm';
 import { DoctorEntity } from './doctor.entity';
 
+
 @Injectable()
 export class DoctorService{
   constructor(
     @InjectRepository(DoctorEntity) private _repositorioDoctor: Repository<DoctorEntity>
   ) {
+
   }
 
   encontrarUno(id: number): Promise<DoctorEntity | undefined> {
@@ -42,7 +44,7 @@ export class DoctorService{
       id: 'ASC',
     }): Promise<DoctorEntity[]> {
 
-        // Exactamente el name o LIKE la idCard
+    // Exactamente el name o LIKE la idCard
 
 
     // id sea mayor a 20
