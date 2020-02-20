@@ -40,7 +40,11 @@ import { DoctorController } from './doctor/doctor.controller';
   ],
 })
 export class AppModule {
-  constructor() {
-
-  }
+  constructor() {}
 }
+
+
+
+
+
+

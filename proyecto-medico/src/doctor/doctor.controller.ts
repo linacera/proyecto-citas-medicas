@@ -9,12 +9,9 @@ import { validate } from 'class-validator';
 
 @Controller('doctor')
 export class DoctorController {
-
   constructor(
     private readonly _doctorService: DoctorService,
-  ){
-
-  }
+  ){}
 
   @Get('holi')
   async holi(){
