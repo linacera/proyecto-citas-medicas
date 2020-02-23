@@ -1,0 +1,144 @@
+<%- include('../shared-views/header')%>
+
+<% const estaEditando = datos.detalleHistorial != undefined;%>
+<div class="container">
+    <% if(datos.error){ %>
+        <div class="alert alert-danger" role="alert">
+            <%= datos.error %>
+        </div>
+    <% } %>
+
+    <% if(datos.mensaje){ %>
+        <div class="alert alert-primary" role="alert">
+            <%= datos.mensaje %>
+        </div>
+    <% } %>
+
+
+    <h1> <%= estaEditando? 'Editando a ' + datos.detalleHistorial.id : 'Crear Historial'%></h1>
+
+    <form action="/detalle<%= estaEditando ?  '/' + datos.detalleHistorial.id : '/crear-detalle-historial/'+datos.idPaciente%>"
+          method="POST">
+        <%console.log('soy el id paciente en el ejs: '+datos.idPaciente)%>
+        <div class="form-group">
+            <label for="fechaHistorialID">Fecha</label>
+            <input id="fechaHistorialID"
+                   type="text"
+                   placeholder="EJ: Johanna"
+                   title="Ingresar fechaHistorial detalleHistorial"
+                   name="fechaHistorial"
+                   value="<%= estaEditando ? datos.detalleHistorial.fechaHistorial : ''%>"
+                    <%=estaEditando ? 'abled' : ''%>
+                   class="form-control">
+            <small id="fechaHistorialIDHelp"
+                   class="form-text text-muted">
+                Ingresa un fechaHistorial  mayor a 3 caracteres y menor a 10.
+            </small>
+            <label for="sintomasID">sintomas</label>
+            <input id="sintomasID"
+                   type="text"
+                   placeholder="EJ: Cerezo"
+                   title="Ingresar sintomas"
+                   name="sintomas"
+                   value="<%= estaEditando ? datos.detalleHistorial.sintomas: ''%>"
+                    <%=estaEditando ? 'abled' : ''%>
+                   class="form-control">
+            <small id="sintomasIDHelp"
+                   class="form-text text-muted">
+                Ingresa un sintomas  mayor a 3 caracteres.
+            </small>
+            <label for="signosVitalesID">signosVitales</label>
+            <input id="signosVitalesID"
+                   type="text"
+                   placeholder="EJ: 0751010414"
+                   title="Ingresar signosVitales"
+                   name="signosVitales"
+                   value="<%= estaEditando ? + datos.detalleHistorial.signosVitales : ''%>"
+                    <%=estaEditando ? 'abled' : ''%>
+                   class="form-control">
+            <small id="signosVitalesIDHelp"
+                   class="form-text text-muted">
+                Ingresa una signosVitales de 10 caracteres.
+            </small>
+            <label for="alergiasID">alergias</label>
+            <input id="alergiasID"
+                   type="text"
+                   placeholder="EJ: 0751010414"
+                   title="Ingresar alergias"
+                   name="alergias"
+                   value="<%= estaEditando ? + datos.detalleHistorial.alergias : ''%>"
+                    <%=estaEditando ? 'abled' : ''%>
+                   class="form-control">
+            <small id="alergiasIDHelp"
+                   class="form-text text-muted">
+                Ingresa una alergias de 10 caracteres.
+            </small>
+            <label for="antecedentesFamiliaresID">antecedentesFamiliares</label>
+            <input id="antecedentesFamiliaresID"
+                   type="text"
+                   placeholder="EJ: 0751010414"
+                   title="Ingresar antecedentesFamiliares"
+                   name="antecedentesFamiliares"
+                   value="<%= estaEditando ? + datos.detalleHistorial.antecedentesFamiliares : ''%>"
+                    <%=estaEditando ? 'abled' : ''%>
+                   class="form-control">
+            <small id="antecedentesFamiliaresIDHelp"
+                   class="form-text text-muted">
+                Ingresa una antecedentesFamiliares de 10 caracteres.
+            </small>
+            <label for="diagnosticoID">diagnostico</label>
+            <input id="diagnosticoID"
+                   type="text"
+                   placeholder="EJ: 0751010414"
+                   title="Ingresar diagnostico"
+                   name="diagnostico"
+                   value="<%= estaEditando ? + datos.detalleHistorial.diagnostico : ''%>"
+                    <%=estaEditando ? 'abled' : ''%>
+                   class="form-control">
+            <small id="diagnosticoIDHelp"
+                   class="form-text text-muted">
+                Ingresa una diagnostico de 10 caracteres.
+            </small>
+            <label for="medicamentosID">medicamentos</label>
+            <input id="medicamentosID"
+                   type="text"
+                   placeholder="EJ: 0751010414"
+                   title="Ingresar medicamentos"
+                   name="medicamentos"
+                   value="<%= estaEditando ? + datos.detalleHistorial.medicamentos : ''%>"
+                    <%=estaEditando ? 'abled' : ''%>
+                   class="form-control">
+            <small id="medicamentosIDHelp"
+                   class="form-text text-muted">
+                Ingresa una medicamentos de 10 caracteres.
+            </small>
+            <label for="idDoctorID">idDoctor</label>
+            <input id="idDoctorID"
+                   type="text"
+                   placeholder="EJ: 0751010414"
+                   title="Ingresar idDoctor"
+                   name="idDoctor"
+                   value="<%= estaEditando ? + datos.detalleHistorial.idDoctor : ''%>"
+                    <%=estaEditando ? 'abled' : ''%>
+                   class="form-control">
+            <small id="idDoctorIDHelp"
+                   class="form-text text-muted">
+                Ingresa una idDoctor de 10 caracteres.
+            </small>
+        </div>
+        <button type="submit"
+                class="btn btn-info">
+            <%= estaEditando ?'Editar Historial' : 'Crear Historial'%>
+        </button>
+        <button type="reset"
+                class="btn btn-info">
+            Limpiar formulario
+        </button>
+
+    </form>
+
+
+
+</div>
+
+<%- include('../shared-views/footer')%>

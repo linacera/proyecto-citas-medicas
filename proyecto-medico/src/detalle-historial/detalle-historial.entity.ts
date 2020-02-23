@@ -97,11 +97,6 @@ export class DetalleHistorialEntity {
   )
   doctor: DoctorEntity;
 
-  @ManyToOne(
-    type => PacienteEntity,
-    paciente => paciente.detalles,
-  )
-  paciente: PacienteEntity;
 
   @ManyToOne(
     type => HistorialEntity,

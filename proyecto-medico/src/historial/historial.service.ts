@@ -52,4 +52,13 @@ export class HistorialService {
       });
   }
 
+  async buscarDetallesDeHistorial(idHistorial:number){
+      return  await this._repositorioHistorial.findOne(
+        {where:
+            { id: idHistorial},
+            relations : ['detalles']});
+
+  }
+
+
 }

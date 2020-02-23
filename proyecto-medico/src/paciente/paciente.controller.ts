@@ -111,7 +111,6 @@ export class PacienteController {
   }
 
   @Get('editar-paciente/:idPaciente')
-
   async rutaEditarPacientes(
     @Query('error') error: string,
     @Param('idPaciente') idPaciente: string,
@@ -125,7 +124,6 @@ export class PacienteController {
     console.log(consulta)
     try {
       const arregloPacientes = await this._pacienteService.encontrarUno(+idPaciente);
-      console.log(consulta.where.id)
       if (arregloPacientes) {
         res.render(
           'paciente/crear-paciente',

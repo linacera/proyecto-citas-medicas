@@ -1,5 +1,6 @@
-import { Column, Entity, Index, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { DetalleHistorialEntity } from '../detalle-historial/detalle-historial.entity';
+import { PacienteEntity } from '../paciente/paciente.entity';
 
 @Entity()
 
@@ -40,5 +41,9 @@ export class HistorialEntity{
     detalle => detalle.historial, //Nombre del campo
   )
   detalles: DetalleHistorialEntity[];
+
+  @OneToOne(type => PacienteEntity, paciente => paciente.historial)
+  @JoinColumn()
+  paciente: PacienteEntity;
 
 }

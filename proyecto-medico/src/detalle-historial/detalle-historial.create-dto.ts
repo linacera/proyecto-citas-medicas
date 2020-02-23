@@ -43,9 +43,6 @@ export class DetalleHistorialCreateDto {
   doctor: DoctorEntity;
 
   @IsNotEmpty()
-  paciente: PacienteEntity;
-
-  @IsNotEmpty()
   historial: HistorialEntity;
 
 

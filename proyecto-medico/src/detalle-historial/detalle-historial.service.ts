@@ -53,4 +53,12 @@ export class DetalleHistorialService {
       });
   }
 
+  async buscarDoctorDeDetalle(detalleId:number){
+    return  await this._repositorioDetalleHistorial.findOne(
+      {where:
+          { id: detalleId},
+        relations : ['doctor']});
+
+  }
+
 }

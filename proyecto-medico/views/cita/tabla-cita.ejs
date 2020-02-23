@@ -25,25 +25,34 @@
             <td><%= cita.paciente.nombre%></td>
             <td><%= cita.doctor.id%></td>
             <td><%= cita.doctor.nombre%></td>
-
             <td>
-                <a href="/cita/editar-cita/<%= cita.id %>">
-                    <button type="button"
-                            class="btn btn-info">
-                        Editar
-                    </button>
-                </a>
-
-                <a>
-                    <form action="/cita/delete/<%= cita.id %>"
-                          method="POST">
-                        <button type="submit"
+                <td>
+                    <a href="/cita/editar-cita/<%= cita.id %>">
+                        <button type="button"
                                 class="btn btn-info">
-                            Eliminar
+                            Editar
                         </button>
-                    </form>
-                </a>
-
+                    </a>
+                </td>
+                <td>
+                    <a>
+                        <form action="/cita/delete/<%= cita.id %>"
+                              method="POST">
+                            <button type="submit"
+                                    class="btn btn-info">
+                                Eliminar
+                            </button>
+                        </form>
+                    </a>
+                </td>
+                <td>
+                    <a href="/detalle/mostrar-detalle-historial/<%= cita.paciente.id %>">
+                        <button type="button"
+                                class="btn btn-info">
+                            Ver Historial
+                        </button>
+                    </a>
+                </td>
             </td>
         </tr>
     <%}); %>

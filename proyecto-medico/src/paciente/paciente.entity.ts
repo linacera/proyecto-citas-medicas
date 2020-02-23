@@ -1,6 +1,7 @@
-import { Column, Entity, Index, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { CitaEntity } from '../cita/cita.entity';
 import { DetalleHistorialEntity } from '../detalle-historial/detalle-historial.entity';
+import { HistorialEntity } from '../historial/historial.entity';
 
 @Entity('paciente_proyecto')
 export class PacienteEntity {
@@ -75,13 +76,8 @@ export class PacienteEntity {
   )
   citas: CitaEntity[];
 
-  @OneToMany(
-    // tslint:disable-next-line:no-shadowed-variable
-    type => DetalleHistorialEntity, //Entidad
-    detalle => detalle.paciente, //Nombre del campo
-  )
-  detalles: DetalleHistorialEntity[];
-
+  @OneToOne(type => HistorialEntity, historial => historial.paciente)
+  historial: HistorialEntity;
 
 
 }

@@ -43,7 +43,7 @@ export class PacienteService{
     take: number = 10,
     order: any = {
       id: 'ASC',
-    }): Promise<DoctorEntity[]> {
+    }): Promise<PacienteEntity[]> {
 
     // Exactamente el name o LIKE la idCard
 

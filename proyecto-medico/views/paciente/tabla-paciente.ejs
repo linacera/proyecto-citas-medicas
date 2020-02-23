@@ -19,13 +19,17 @@
             <td><%= paciente.telefono%></td>
             <td><%= paciente.direccion%></td>
             <td>
-                <a href="/paciente/editar-paciente/<%= paciente.id %>">
-                    <button type="button"
-                            class="btn btn-info">
-                        Editar
-                    </button>
-                </a>
+                <td>
+                    <a href="/paciente/editar-paciente/<%= paciente.id %>">
+                        <%console.log('Soy el paciente en el ejs paciente para editar: '+paciente.id)%>
+                        <button type="button"
+                                class="btn btn-info">
+                            Editar
+                        </button>
+                    </a>
+                </td>
 
+            <td>
                 <a>
                     <form action="/paciente/delete/<%= paciente.id %>"
                           method="POST">
@@ -35,7 +39,15 @@
                         </button>
                     </form>
                 </a>
-
+            </td>
+            <td>
+                <a href="/detalle/mostrar-detalle-historial/<%=paciente.id %>">
+                    <button type="button"
+                            class="btn btn-info">
+                        Ver Historial
+                    </button>
+                </a>
+            </td>
             </td>
         </tr>
     <%}); %>

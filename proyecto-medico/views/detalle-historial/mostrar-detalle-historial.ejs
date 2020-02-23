@@ -1,0 +1,34 @@
+<%- include('../shared-views/header')%>
+<div class="container">
+
+    <% if(datos.mensaje){ %>
+        <div class="alert alert-primary" role="alert">
+            <%= datos.mensaje %>
+        </div>
+    <% } %>
+
+    <% if(datos.error){ %>
+        <div class="alert alert-danger" role="alert">
+            <%= datos.error %>
+        </div>
+    <%
+    }
+    %>
+    <div>
+        <h1>Historial Médico </h1>
+    </div>
+
+    <%- include('./tabla-detalle-historial',{
+    historial: datos.historialConDetalles
+    })
+    %>
+
+    <a href="/detalle/crear-detalle-historial/<%=datos.idPaciente%>">
+        <button type="button"
+                class="btn btn-info">
+            Crear historial
+        </button>
+    </a>
+
+</div>
+<%- include('../shared-views/footer')%>
