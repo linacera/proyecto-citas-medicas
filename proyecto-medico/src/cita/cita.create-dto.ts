@@ -10,7 +10,7 @@ export class CitaCreateDto {
 
   @IsNotEmpty()
   @IsNumberString()
-  @Length(10,10)
+  @Length(1,3)
   consultorio: string;
 
   @IsNotEmpty()

@@ -46,17 +46,6 @@ export class DoctorService{
 
     // Exactamente el name o LIKE la idCard
 
-
-    // id sea mayor a 20
-    const consultaWhereMoreThan = {
-      id: MoreThan(20)
-    };
-
-    // id sea igual a x
-    const consultaWhereIgual = {
-      id: 30
-    };
-
     return this._repositorioDoctor
       .find({
         where: where,

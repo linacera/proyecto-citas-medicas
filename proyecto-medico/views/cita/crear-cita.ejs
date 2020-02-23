@@ -1,0 +1,103 @@
+<%- include('../shared-views/header')%>
+
+<% const estaEditando = datos.cita != undefined;%>
+<div class="container">
+    <% if(datos.error){ %>
+        <div class="alert alert-danger" role="alert">
+            <%= datos.error %>
+        </div>
+    <% } %>
+
+    <% if(datos.mensaje){ %>
+        <div class="alert alert-primary" role="alert">
+            <%= datos.mensaje %>
+        </div>
+    <% } %>
+
+
+    <h1> <%= estaEditando? 'Editando a ' + datos.cita.id : 'Crear Cita'%></h1>
+
+    <form action="/cita<%= estaEditando ?  '/' + datos.cita.id : '/crear-cita'%>"
+          method="POST">
+        <div class="form-group">
+            <label for="fechaCitaID">Fecha de la cita:</label>
+            <input id="fechaCitaID"
+                   type="text"
+                   placeholder="EJ: 2020-02-27"
+                   title="Ingresar fechaCita cita"
+                   name="fechaCita"
+                   value="<%= estaEditando ? datos.cita.fechaCita : ''%>"
+                    <%=estaEditando ? 'abled' : ''%>
+                   class="form-control">
+            <small id="fechaCitaIDHelp"
+                   class="form-text text-muted">
+                Ingresa una fecha para la cita en el formato aaaa-mm-dd
+            </small>
+            <label for="estadoID">Estado</label>
+            <input id="estadoID"
+                   type="text"
+                   placeholder="EJ: creado"
+                   title="Ingresar Estado"
+                   name="estado"
+                   value="<%= estaEditando ? datos.cita.estado: ''%>"
+                    <%=estaEditando ? 'abled' : ''%>
+                   class="form-control">
+            <small id="estadoIDHelp"
+                   class="form-text text-muted">
+                Ingresa un estado  para la cita: creado, realizado, cancelado.
+            </small>
+            <label for="consultorioID">Consultorio</label>
+            <input id="consultorioID"
+                   type="text"
+                   placeholder="EJ: 502"
+                   title="Ingresar consultorio"
+                   name="consultorio"
+                   value="<%= estaEditando ? + datos.cita.consultorio : ''%>"
+                    <%=estaEditando ? 'abled' : ''%>
+                   class="form-control">
+            <small id="consultorioIDHelp"
+                   class="form-text text-muted">
+                Ingresa una consultorio el numero del consultorio en donde se realizara la cita.
+            </small>
+            <label for="idDoctorID">Id Doctor</label>
+            <input id="idDoctorID"
+                   type="text"
+                   placeholder="EJ: 1"
+                   title="Ingresar Estado"
+                   name="idDoctor"
+                   value="<%= estaEditando ? datos.cita.idDoctor: ''%>"
+                    <%=estaEditando ? 'abled' : ''%>
+                   class="form-control">
+            <small id="idDoctorIDHelp"
+                   class="form-text text-muted">
+                Ingresa un el Id de un doctor registrado en el sistema.
+            </small>
+            <label for="idPacienteID">Id Paciente</label>
+            <input id="idPacienteID"
+                   type="text"
+                   placeholder="EJ: 1"
+                   title="Ingresar Estado"
+                   name="idPaciente"
+                   value="<%= estaEditando ? datos.cita.idPaciente: ''%>"
+                    <%=estaEditando ? 'abled' : ''%>
+                   class="form-control">
+            <small id="idPacienteIDHelp"
+                   class="form-text text-muted">
+                Ingresa un el Id de un paciente registrado en el sistema.
+            </small>
+        </div>
+        <button type="submit"
+                class="btn btn-info">
+            <%= estaEditando ?'Editar Cita' : 'Crear Cita'%>
+        </button>
+        <button type="reset"
+                class="btn btn-info">
+            Limpiar formulario
+        </button>
+    </form>
+
+
+
+</div>
+
+<%- include('../shared-views/footer')%>

@@ -1,5 +1,6 @@
 import { Column, Entity, Index, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { CitaEntity } from '../cita/cita.entity';
+import { DetalleHistorialEntity } from '../detalle-historial/detalle-historial.entity';
 
 @Entity('paciente_proyecto')
 export class PacienteEntity {
@@ -73,6 +74,14 @@ export class PacienteEntity {
     cita => cita.paciente, //Nombre del campo
   )
   citas: CitaEntity[];
+
+  @OneToMany(
+    // tslint:disable-next-line:no-shadowed-variable
+    type => DetalleHistorialEntity, //Entidad
+    detalle => detalle.paciente, //Nombre del campo
+  )
+  detalles: DetalleHistorialEntity[];
+
 
 
 }

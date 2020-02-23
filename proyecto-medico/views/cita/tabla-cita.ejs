@@ -1,0 +1,51 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">ID Cita</th>
+        <th scope="col">Fecha</th>
+        <th scope="col">Estado</th>
+        <th scope="col">Consultorio</th>
+        <th scope="col">Id Paciente</th>
+        <th scope="col">Nombre Paciente</th>
+        <th scope="col">Id Doctor</th>
+        <th scope="col">Nombre Doctor</th>
+
+
+
+    </tr>
+    </thead>
+    <tbody  async="true">
+    <%     citas.forEach( (cita) => {%>
+        <tr>
+            <th scope="row"><%= cita.id%></th>
+            <td><%= cita.fechaCita%></td>
+            <td><%= cita.estado%></td>
+            <td><%= cita.consultorio%></td>
+            <td><%= cita.paciente.id%></td>
+            <td><%= cita.paciente.nombre%></td>
+            <td><%= cita.doctor.id%></td>
+            <td><%= cita.doctor.nombre%></td>
+
+            <td>
+                <a href="/cita/editar-cita/<%= cita.id %>">
+                    <button type="button"
+                            class="btn btn-info">
+                        Editar
+                    </button>
+                </a>
+
+                <a>
+                    <form action="/cita/delete/<%= cita.id %>"
+                          method="POST">
+                        <button type="submit"
+                                class="btn btn-info">
+                            Eliminar
+                        </button>
+                    </form>
+                </a>
+
+            </td>
+        </tr>
+    <%}); %>
+    </tbody>
+</table>

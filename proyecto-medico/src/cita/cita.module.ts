@@ -3,12 +3,18 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CitaEntity } from './cita.entity';
 import { CitaService } from './cita.service';
 import { CitaController } from './cita.controller';
+import { PacienteEntity } from '../paciente/paciente.entity';
+import { PacienteService } from '../paciente/paciente.service';
+import { DoctorService } from '../doctor/doctor.service';
+import { DoctorEntity } from '../doctor/doctor.entity';
 
 @Module(
   {
     imports: [TypeOrmModule
       .forFeature([
           CitaEntity,
+          PacienteEntity,
+          DoctorEntity,
           // Entidades a usarse dentro
           // del modulo.
         ],
@@ -20,6 +26,8 @@ import { CitaController } from './cita.controller';
     ],
     providers: [
       CitaService,
+      PacienteService,
+      DoctorService,
     ],
     exports: [
       CitaService,

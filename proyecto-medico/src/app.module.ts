@@ -9,7 +9,10 @@ import { DoctorEntity } from './doctor/doctor.entity';
 import { PacienteModule } from './paciente/paciente.module';
 import { CitaModule } from './cita/cita.module';
 import { DoctorModule } from './doctor/doctor.module';
-import { DoctorController } from './doctor/doctor.controller';
+import { HistorialModule } from './historial/historial.module';
+import { DetalleHistorialModule } from './detalle-historial/detalle-historial.module';
+import { HistorialEntity } from './historial/historial.entity';
+import { DetalleHistorialEntity } from './detalle-historial/detalle-historial.entity';
 
 
 @Module({
@@ -17,6 +20,8 @@ import { DoctorController } from './doctor/doctor.controller';
     CitaModule,
     PacienteModule,
     DoctorModule,
+    HistorialModule,
+    DetalleHistorialModule,
     TypeOrmModule.forRoot(
       {
         type: 'mysql',
@@ -29,13 +34,15 @@ import { DoctorController } from './doctor/doctor.controller';
           PacienteEntity,
           CitaEntity,
           DoctorEntity,
+          HistorialEntity,
+          DetalleHistorialEntity,
         ],
         synchronize: true, // Crear -> true , Conectar -> false
         dropSchema: false,
       },
     ),
   ],
-  controllers: [AppController, DoctorController,
+  controllers: [AppController,
   ],
   providers: [AppService,
   ],

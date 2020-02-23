@@ -1,28 +1,27 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DoctorEntity } from './doctor.entity';
-import { DoctorController } from './doctor.controller';
-import { DoctorService } from './doctor.service';
+import { HistorialService } from './historial.service';
+import { HistorialEntity } from './historial.entity';
+
 
 @Module(
   {
     imports: [TypeOrmModule
       .forFeature([
-          DoctorEntity,
+          HistorialEntity,
+          // Entidades a usarse dentro
+          // del modulo.
         ],
         'default' // Nombre de la cadena de conex.
       ),
     ],
     controllers: [
-      DoctorController,
     ],
     providers: [
-      DoctorService,
+      HistorialService,
     ],
     exports: [
-      DoctorService,
+      HistorialService,
     ]}
 )
-export class DoctorModule {
-
-}
+export class HistorialModule {}
