@@ -34,7 +34,6 @@ export class RolesGuard implements CanActivate {
         const currentUserRole = request.session.usuario.roles;
         try {
           if (this.matchRoles(roles, currentUserRole)) {
-            console.log('t2');
             return true;
           } else if (currentUserRole[0] === 'paciente') {
             await response.redirect('/paciente/mostrar-mis-citas/'+request.session.usuario.userId+'?error=Ud es un paciente no tiene los permisos suficientes para acceder a este recurso')
@@ -53,7 +52,6 @@ export class RolesGuard implements CanActivate {
 
     }
   }
-
   matchRoles(roles, currenUserRol): boolean {
       for(const rol of roles){
         if(rol === currenUserRol[0]){

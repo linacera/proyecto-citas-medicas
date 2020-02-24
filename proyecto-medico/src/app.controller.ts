@@ -1,9 +1,11 @@
-import { Body, Controller, Get, Post, Query, Req, Res, Session } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Req, Res, Session, SetMetadata, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
 import { UsuarioService } from './usuario/usuario.service';
 import { UsuarioEntity } from './usuario/usuario.entity';
+import { RolesGuard } from './roles.guard';
 
 @Controller()
+@UseGuards(RolesGuard)
 export class AppController {
   constructor(private readonly appService: AppService, private usuarioService: UsuarioService,) {}
 
@@ -18,7 +20,7 @@ export class AppController {
     @Query('mensaje') mensaje: string,
     @Query('error') error: string,
   ) {
-    res.render('./login/login',{
+    res.render('./session/login',{
         datos: {
           mensaje,
           error
@@ -65,6 +67,7 @@ export class AppController {
   }
 
   @Get('logout')
+  @SetMetadata('roles', ['administrador','paciente','doctor'])
   logout(
     @Session() session,
     @Req() req,
@@ -73,6 +76,46 @@ export class AppController {
     session.usuario = undefined;
     req.session.destroy();
     res.redirect('/login?mensaje=Ha cerrado sesion')
+  }
+
+  @Get('cambiar-contrasena')
+  @SetMetadata('roles', ['administrador','paciente','doctor'])
+  cambiarContrasenaView(
+    @Res() res,
+    @Query('mensaje') mensaje: string,
+    @Query('error') error: string,
+  ) {
+    res.render('./session/cambiar-contrasena',{
+        datos: {
+          mensaje,
+          error
+        }
+      }
+
+    );
+  }
+
+  @Post('cambiar-contrasena')
+  @SetMetadata('roles', ['administrador','paciente','doctor'])
+  async cambiarContrasena(
+    @Body('pass') pass: string,
+    @Body('repass') repass: string,
+    @Session() session,
+    @Res() res,
+  ){
+    try{
+      if(pass === repass){
+        const user = await this.usuarioService.encontrarUno(session.usuario.userId);
+        user.contrasena = pass;
+        await this.usuarioService.actualizarUno(session.usuario.userId,user);
+        res.redirect('/cambiar-contrasena?mensaje=La contraseña se cambio con exito');
+      }else{
+        res.redirect('/cambiar-contrasena?error=Las contraseñas no coinciden');
+      }
+    }catch (e) {
+      res.redirect('/cambiar-contrasena?error=Error del servidor');
+    }
+
   }
 
 }

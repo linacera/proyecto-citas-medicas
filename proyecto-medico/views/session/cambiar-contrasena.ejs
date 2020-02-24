@@ -1,0 +1,57 @@
+<%- include('../shared-views/header')%>
+
+<% if(datos.mensaje){ %>
+    <div class="alert alert-primary" role="alert">
+        <%= datos.mensaje %>
+    </div>
+<% } %>
+
+<% if(datos.error){ %>
+    <div class="alert alert-danger" role="alert">
+        <%= datos.error %>
+    </div>
+<%
+}
+%>
+
+
+<div class="container">
+
+    <h1>Cambiar contraseña</h1>
+    <form action="/cambiar-contrasena"
+          method="POST">
+        <div class="form-group">
+            <label for="passID">Contraseña</label>
+            <input id="passID"
+                   type="password"
+                   placeholder="EJ: *******"
+                   title="Ingresar la nueva contrasena"
+                   name="pass"
+                   class="form-control">
+            <small id="passIDHelp"
+                   class="form-text text-muted">
+                Ingresa una contrasena valida.
+            </small>
+            <label for="repassID">Contraseña Repetida</label>
+            <input id="repassID"
+                   type="password"
+                   placeholder="EJ: *******"
+                   title="Ingrese la nueva contraseña otra vez"
+                   name="repass"
+                   class="form-control">
+            <small id="repassIDHelp"
+                   class="form-text text-muted">
+                Ingresa la contraseña de nuevo.
+            </small>
+        </div>
+        <button type="submit"
+                class="btn btn-info">
+            Cambiar contraseña
+        </button>
+        <button type="reset"
+                class="btn btn-info">
+            Limpiar formulario
+        </button>
+    </form>
+</div>
+<%- include('../shared-views/footer')%>

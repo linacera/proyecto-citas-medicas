@@ -84,7 +84,7 @@ export class UsuarioService{
 
   async crearUsuario(nombre:string, apellido:string, role:string): Promise<UsuarioEntity>{
       const user = new UsuarioEntity();
-      user.nombreDeUsuario = nombre.substring(0,2)+'.'+apellido;
+      user.nombreDeUsuario = nombre.substring(0,3).toLowerCase()+'.'+apellido.toLowerCase();
       const mismoUsername = await this.encontrarPorUsuario(user.nombreDeUsuario);
       if(mismoUsername === undefined){
         user.contrasena = '1234';
@@ -92,7 +92,7 @@ export class UsuarioService{
         await this.crearUno(user);
         return await this.encontrarPorUsuario(user.nombreDeUsuario);
       }else{
-        user.nombreDeUsuario = nombre.substring(0,2)+'.'+apellido+'01';
+        user.nombreDeUsuario = nombre.substring(0,3).toLowerCase()+'.'+apellido.toLowerCase()+'01';
         user.contrasena = '1234';
         user.rol = role;
         await this.crearUno(user);

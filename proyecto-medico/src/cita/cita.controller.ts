@@ -86,7 +86,7 @@ export class CitaController {
   }
 
   @Get('buscar-citas')
-  @SetMetadata('roles', ['administrador'])
+  @SetMetadata('roles', ['administrador','doctor'])
   async buscarCitas(
     @Res() res,
     @Query('mensaje') mensaje: string,
