@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PacienteEntity } from './paciente.entity';
-import { DeleteResult, MoreThan, Repository } from 'typeorm';
+import { DeleteResult, getRepository, MoreThan, Repository } from 'typeorm';
 import { DoctorEntity } from '../doctor/doctor.entity';
 
 @Injectable()
@@ -65,6 +65,20 @@ export class PacienteService{
         take: take,
         order: order,
       });
+  }
+
+  async encontarPacientePorUserId(idUsuario: number): Promise<PacienteEntity>{
+    return await getRepository(PacienteEntity).
+    createQueryBuilder('paciente')
+      .where("paciente.usuarioId = :idUsuario", {idUsuario: idUsuario})
+      .getOne()
+  }
+
+  async encontrarCitasDePaciente(idPaciente: number) : Promise<PacienteEntity>{
+    return  await this._repositorioPaciente.findOne(
+      {
+        where: { id: idPaciente }, relations: ['citas']
+      })
   }
 
 }

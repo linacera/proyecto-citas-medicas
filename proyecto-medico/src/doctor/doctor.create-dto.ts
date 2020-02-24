@@ -1,4 +1,5 @@
 import { IsISO8601, IsNotEmpty, IsNumberString, IsString, Length, MaxLength, MinLength } from 'class-validator';
+import { UsuarioEntity } from '../usuario/usuario.entity';
 
 export class DoctorCreateDto{
 
@@ -30,5 +31,6 @@ export class DoctorCreateDto{
   @IsNumberString()
   @Length(10,10)
   telefono: string;
+
 
 }

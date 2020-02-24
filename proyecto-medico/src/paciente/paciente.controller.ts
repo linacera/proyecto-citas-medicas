@@ -1,24 +1,23 @@
-import { Body, Controller, Get, Param, Post, Query, Res, Session } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, Res, Session, SetMetadata, UseGuards } from '@nestjs/common';
 import { PacienteService } from './paciente.service';
 import { Like } from 'typeorm';
 import { validate } from 'class-validator';
 import { PacienteEntity } from './paciente.entity';
 import { PacienteCreateDto } from './paciente.create-dto';
+import { CitaService } from '../cita/cita.service';
+import { UsuarioService } from '../usuario/usuario.service';
+import { RolesGuard } from '../roles.guard';
 
 
 @Controller('paciente')
+@UseGuards(RolesGuard)
 export class PacienteController {
 
   constructor(
-    private readonly _pacienteService: PacienteService,
+    private readonly _pacienteService: PacienteService, private _citaService: CitaService, private _usuarioService: UsuarioService,
   ){}
-
-  @Get('holi')
-  holi(){
-    console.log('holi paciente')
-  }
-
   @Get('mostrar-pacientes')
+  @SetMetadata('roles', ['administrador'])
   async rutaMostrarPacientes(
     @Res() res,
     @Query('mensaje') mensaje: string,
@@ -59,6 +58,7 @@ export class PacienteController {
   }
 
   @Post('crear')
+  @SetMetadata('roles', ['administrador'])
   async crearUnPaciente(
     @Body() paciente: PacienteEntity,
     @Res() res,
@@ -78,6 +78,7 @@ export class PacienteController {
       );
     } else {
       try {
+        paciente.usuario = await this._usuarioService.crearUsuario(paciente.nombre,paciente.apellido,'paciente');
         await this._pacienteService
           .crearUno(
             paciente,
@@ -95,6 +96,7 @@ export class PacienteController {
   }
 
   @Get('crear-paciente')
+  @SetMetadata('roles', ['administrador'])
   rutaCrearPacientes(
     @Query('error') error: string,
     @Query('mensaje') mensaje: string,
@@ -111,6 +113,7 @@ export class PacienteController {
   }
 
   @Get('editar-paciente/:idPaciente')
+  @SetMetadata('roles', ['administrador'])
   async rutaEditarPacientes(
     @Query('error') error: string,
     @Param('idPaciente') idPaciente: string,
@@ -148,6 +151,7 @@ export class PacienteController {
 
 
   @Post(':id')
+  @SetMetadata('roles', ['administrador'])
   async actualizarUnPaciente(
     @Body() paciente: PacienteEntity,
     @Param('id') id: string,
@@ -194,6 +198,31 @@ export class PacienteController {
       res.redirect('/paciente/mostrar-pacientes?error=Error del servidor');
     }
   }
+
+  @Get('mostrar-mis-citas/:id')
+  @SetMetadata('roles', ['paciente'])
+  async mostarMisCitas(
+    @Query('error') error: string,
+    @Query('mensaje') mensaje: string,
+    @Param('id') idUsuario: string,
+    @Res() res,
+  ){
+    const paciente = await this._pacienteService.encontarPacientePorUserId(+idUsuario);
+    const  pacienteConRelaciones = await this._pacienteService.encontrarCitasDePaciente(paciente.id);
+    const citasSinRelaciones = pacienteConRelaciones.citas;
+    const citas =  await this._citaService.buscarRelacionesDeCitas(citasSinRelaciones);
+    res.render('cita/mostrar-citas',
+      {
+        datos: {
+          error,
+          mensaje,
+          citas, // es igual a citas:citas
+        },
+      },
+    );
+  }
+
+
 
 
 }

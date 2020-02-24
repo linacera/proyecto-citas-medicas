@@ -1,15 +1,19 @@
-import { Body, Controller, Get, Param, Post, Query, Res, Session } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, Res, Session, SetMetadata, UseGuards } from '@nestjs/common';
 import { DoctorEntity } from './doctor.entity';
 import { DoctorCreateDto } from './doctor.create-dto';
 import { validate } from 'class-validator';
 import { DoctorService } from './doctor.service';
-import { Like } from 'typeorm';
+import { getRepository, Like } from 'typeorm';
 import { DoctorUpdateDto } from './doctor.update-dto';
+import { CitaService } from '../cita/cita.service';
+import { UsuarioService } from '../usuario/usuario.service';
+import { RolesGuard } from '../roles.guard';
 
 @Controller('doctor')
+@UseGuards(RolesGuard)
 export class DoctorController {
   constructor(
-    private readonly _doctorService: DoctorService,
+    private readonly _doctorService: DoctorService, private _citaService : CitaService, private _usuarioService: UsuarioService,
   ){
 
   }
@@ -20,6 +24,7 @@ export class DoctorController {
   }
 
   @Get('mostrar-doctores')
+  @SetMetadata('roles', ['administrador'])
   async rutaMostrarDoctors(
     @Res() res,
     @Query('mensaje') mensaje: string,
@@ -60,6 +65,7 @@ export class DoctorController {
   }
 
   @Post('crear')
+  @SetMetadata('roles', ['administrador'])
   async crearUnDoctor(
     @Body() doctor: DoctorEntity,
     @Res() res,
@@ -73,12 +79,12 @@ export class DoctorController {
     doctorCreateDTO.especialidad = doctor.especialidad;
     const errores = await validate(doctorCreateDTO);
     if (errores.length > 0) {
-
       res.redirect(
         '/doctor/crear-doctor?error=Error validando',
       );
     } else {
       try {
+        doctor.usuario = await this._usuarioService.crearUsuario(doctor.nombre,doctor.apellido,'doctor');
         await this._doctorService
           .crearUno(
             doctor,
@@ -95,7 +101,10 @@ export class DoctorController {
     }
   }
 
+
+
   @Get('crear-doctor')
+  @SetMetadata('roles', ['administrador'])
   rutaCrearDoctors(
     @Query('error') error: string,
     @Query('mensaje') mensaje: string,
@@ -112,7 +121,7 @@ export class DoctorController {
   }
 
   @Get('editar-doctor/:idDoctor')
-
+  @SetMetadata('roles', ['administrador'])
   async rutaEditarDoctors(
     @Query('error') error: string,
     @Param('idDoctor') idDoctor: string,
@@ -151,6 +160,7 @@ export class DoctorController {
 
 
   @Post(':id')
+  @SetMetadata('roles', ['administrador'])
   async actualizarUnDoctor(
     @Body() doctor: DoctorEntity,
     @Param('id') id: string,
@@ -182,6 +192,7 @@ export class DoctorController {
   }
 
   @Post('delete/:id')
+  @SetMetadata('roles', ['administrador'])
   async eliminarUnoPost(
     @Param('id') id: string,
     @Res() res,
@@ -198,5 +209,27 @@ export class DoctorController {
     }
   }
 
+  @Get('mostrar-mis-citas/:id')
+  @SetMetadata('roles', ['doctor'])
+  async mostarMisCitas(
+    @Query('error') error: string,
+    @Query('mensaje') mensaje: string,
+    @Param('id') idUsuario: string,
+    @Res() res,
+  ){
+   const doctor = await this._doctorService.encontarDoctorPorUserId(+idUsuario);
+   const  doctorConRelaciones = await this._doctorService.encontrarCitasDeDoctor(doctor.id);
+   const citasSinRelaciones = doctorConRelaciones.citas;
+   const citas =  await this._citaService.buscarRelacionesDeCitas(citasSinRelaciones);
+   res.render('cita/mostrar-citas',
+      {
+        datos: {
+          error,
+          mensaje,
+          citas, // es igual a citas:citas
+        },
+      },
+    );
+  }
 
 }

@@ -1,4 +1,16 @@
-import { Body, Controller, Get, Param, Post, Query, Res, Session, ValidationError } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  Res,
+  Session,
+  SetMetadata,
+  UseGuards,
+  ValidationError,
+} from '@nestjs/common';
 import { DoctorService } from '../doctor/doctor.service';
 import { PacienteService } from '../paciente/paciente.service';
 import { DetalleHistorialService } from './detalle-historial.service';
@@ -10,9 +22,11 @@ import { HistorialEntity } from '../historial/historial.entity';
 import { HistorialService } from '../historial/historial.service';
 import { response } from 'express';
 import { empty } from 'rxjs/internal/Observer';
+import { RolesGuard } from '../roles.guard';
 
 
 @Controller('detalle')
+@UseGuards(RolesGuard)
 export class DetalleHistorialController {
 
   constructor(
@@ -25,6 +39,7 @@ export class DetalleHistorialController {
   }
 
   @Post('crear-detalle-historial/:idPaciente')
+  @SetMetadata('roles', ['doctor'])
   async crearUnDetalleHistorial(
     @Body() detalleHistorial: DetalleHistorialEntity,
     @Res() res,
@@ -52,6 +67,7 @@ export class DetalleHistorialController {
   }
 
   @Get('crear-detalle-historial/:id')
+  @SetMetadata('roles', ['doctor'])
   rutaCrearDetalleHistorial(
     @Query('error') error: string,
     @Query('mensaje') mensaje: string,
@@ -71,6 +87,7 @@ export class DetalleHistorialController {
   }
 
   @Get('mostrar-detalle-historial/:id')
+  @SetMetadata('roles', ['doctor','paciente'])
   async rutaMostrarHistorial(
     @Query('error') error: string,
     @Query('mensaje') mensaje: string,

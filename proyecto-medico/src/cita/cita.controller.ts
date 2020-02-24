@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, Res, Session } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, Res, Session, SetMetadata, UseGuards } from '@nestjs/common';
 import { CitaService } from './cita.service';
 import { async } from 'rxjs/internal/scheduler/async';
 
@@ -8,8 +8,10 @@ import { CitaCreateDto } from './cita.create-dto';
 import { DoctorService } from '../doctor/doctor.service';
 import { PacienteService } from '../paciente/paciente.service';
 import { Like } from 'typeorm';
+import { RolesGuard } from '../roles.guard';
 
 @Controller('cita')
+@UseGuards(RolesGuard)
 export class CitaController {
 
   constructor(
@@ -18,6 +20,7 @@ export class CitaController {
   }
 
   @Post('crear-cita')
+  @SetMetadata('roles', ['administrador','doctor'])
   async crearUnCita(
     @Body() cita: CitaEntity,
     @Res() res,
@@ -66,6 +69,7 @@ export class CitaController {
   }
 
   @Get('crear-cita')
+  @SetMetadata('roles', ['administrador','doctor'])
   rutaCrearCitas(
     @Query('error') error: string,
     @Query('mensaje') mensaje: string,
@@ -82,12 +86,13 @@ export class CitaController {
   }
 
   @Get('buscar-citas')
+  @SetMetadata('roles', ['administrador'])
   async buscarCitas(
     @Res() res,
     @Query('mensaje') mensaje: string,
     @Query('error') error: string,
     @Query('consultaCita') consultaCita: string,
-  ){
+  ) {
     let consultaServicio;
     if (consultaCita) {
       consultaServicio = [
@@ -116,6 +121,7 @@ export class CitaController {
   }
 
   @Get('mostrar-citas')
+  @SetMetadata('roles', ['administrador'])
   async rutaMostrarCitas(
     @Res() res,
     @Query('mensaje') mensaje: string,
@@ -133,4 +139,67 @@ export class CitaController {
     );
 
   }
+
+  @Post('cancelar-cita/:idCita/:idDoctor')
+  @SetMetadata('roles', ['doctor', 'paciente'])
+  async cancelarCita(
+    @Res() res,
+    @Query('mensaje') mensaje: string,
+    @Query('error') error: string,
+    @Param('idCita') idCita: string,
+    @Param('idDoctor') idDoctor: string,
+    @Session() session,
+  ) {
+    try {
+      if (await this.cambiarEstadoDeCita(+idCita, 'Cancelado')) {
+        res.redirect('/doctor/mostrar-mis-citas/' + idDoctor + '?mensaje=Cita cancelada');
+      } else {
+        res.redirect('/doctor/mostrar-mis-citas/' + idDoctor + '?error=No se puede actualizar la cita porque ya fue realizada o cancelada');
+      }
+
+    } catch (e) {
+      res.redirect('/doctor/mostrar-mis-citas/' + idDoctor + '?error=Error en el servidor');
+    }
+  }
+
+  @Post('cita-realizada/:idCita/:idDoctor')
+  @SetMetadata('roles', ['doctor'])
+  async citaRealizada(
+    @Res() res,
+    @Query('mensaje') mensaje: string,
+    @Query('error') error: string,
+    @Param('idCita') idCita: string,
+    @Param('idDoctor') idDoctor: string,
+    @Session() session,
+  ) {
+    try {
+      if ( await this.cambiarEstadoDeCita(+idCita, 'Realizado')) {
+        res.redirect('/doctor/mostrar-mis-citas/' + idDoctor + '?mensaje=Cita realizada');
+      } else {
+        res.redirect('/doctor/mostrar-mis-citas/' + idDoctor + '?error=No se puede actualizar la cita porque ya fue cancelada o realizada');
+      }
+    } catch (e) {
+      res.redirect('/doctor/mostrar-mis-citas/' + idDoctor + '?error=Error en el servidor');
+    }
+  }
+
+  async cambiarEstadoDeCita(idCita: number, estado: string) {
+    const cita = await this._citaService.encontrarUno(idCita);
+    if(estado === 'Realizado' && cita.estado==='Cancelado') {
+      return false;
+    }
+    if(estado === 'Cancelado' && cita.estado==='Realizado') {
+      return false;
+    }
+    if(estado === 'Cancelado' && cita.estado==='Cancelado') {
+      return false;
+    }
+    if(estado === 'Realizado' && cita.estado==='Realizado') {
+      return false;
+    }
+    cita.estado = estado;
+    await this._citaService.actualizarUno(idCita,cita);
+    return true
+  }
+
 }

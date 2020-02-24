@@ -2,6 +2,7 @@ import { Column, Entity, Index, JoinColumn, OneToMany, OneToOne, PrimaryGenerate
 import { CitaEntity } from '../cita/cita.entity';
 import { DetalleHistorialEntity } from '../detalle-historial/detalle-historial.entity';
 import { HistorialEntity } from '../historial/historial.entity';
+import { UsuarioEntity } from '../usuario/usuario.entity';
 
 @Entity('paciente_proyecto')
 export class PacienteEntity {
@@ -79,5 +80,8 @@ export class PacienteEntity {
   @OneToOne(type => HistorialEntity, historial => historial.paciente)
   historial: HistorialEntity;
 
+  @OneToOne(type => UsuarioEntity, usuario => usuario.paciente)
+  @JoinColumn()
+  usuario: UsuarioEntity;
 
 }

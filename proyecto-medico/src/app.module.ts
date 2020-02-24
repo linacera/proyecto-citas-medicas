@@ -13,6 +13,9 @@ import { HistorialModule } from './historial/historial.module';
 import { DetalleHistorialModule } from './detalle-historial/detalle-historial.module';
 import { HistorialEntity } from './historial/historial.entity';
 import { DetalleHistorialEntity } from './detalle-historial/detalle-historial.entity';
+import { UsuarioModule } from './usuario/usuario.module';
+import { UsuarioEntity } from './usuario/usuario.entity';
+import { UsuarioService } from './usuario/usuario.service';
 
 
 @Module({
@@ -22,6 +25,7 @@ import { DetalleHistorialEntity } from './detalle-historial/detalle-historial.en
     DoctorModule,
     HistorialModule,
     DetalleHistorialModule,
+    UsuarioModule,
     TypeOrmModule.forRoot(
       {
         type: 'mysql',
@@ -36,6 +40,7 @@ import { DetalleHistorialEntity } from './detalle-historial/detalle-historial.en
           DoctorEntity,
           HistorialEntity,
           DetalleHistorialEntity,
+          UsuarioEntity,
         ],
         synchronize: true, // Crear -> true , Conectar -> false
         dropSchema: false,

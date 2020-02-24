@@ -1,0 +1,57 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+<% if(datos.mensaje){ %>
+    <div class="alert alert-primary" role="alert">
+        <%= datos.mensaje %>
+    </div>
+<% } %>
+
+<% if(datos.error){ %>
+    <div class="alert alert-danger" role="alert">
+        <%= datos.error %>
+    </div>
+<%
+}
+%>
+
+
+<div class="container">
+
+    <h1>Log in</h1>
+    <form action="/login"
+          method="POST">
+        <div class="form-group">
+            <label for="usernameID">Username</label>
+            <input id="usernameID"
+                   type="text"
+                   placeholder="EJ: linacera"
+                   title="Ingresar username"
+                   name="username"
+                   class="form-control">
+            <small id="usernameIDHelp"
+                   class="form-text text-muted">
+                Ingresa un username valido.
+            </small>
+            <label for="passwordID">Password</label>
+            <input id="passwordID"
+                   type="password"
+                   placeholder="EJ: *******"
+                   title="Ingrese la contraseña"
+                   name="password"
+                   class="form-control">
+            <small id="passwordIDHelp"
+                   class="form-text text-muted">
+                Ingresa la contraseña.
+            </small>
+        </div>
+        <button type="submit"
+                class="btn btn-danger">
+            Iniciar sesión
+        </button>
+        <button type="reset"
+                class="btn btn-danger">
+            Limpiar formulario
+        </button>
+    </form>
+</div>
+<%- include('../shared-views/footer')%>

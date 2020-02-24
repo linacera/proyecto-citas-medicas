@@ -27,20 +27,23 @@
             <td><%= cita.doctor.nombre%></td>
             <td>
                 <td>
-                    <a href="/cita/editar-cita/<%= cita.id %>">
-                        <button type="button"
-                                class="btn btn-info">
-                            Editar
-                        </button>
+                    <a>
+                        <form action="/cita/cancelar-cita/<%= cita.id %>/<%=cita.doctor.id%>"
+                              method="POST">
+                            <button type="submit"
+                                    class="btn btn-info">
+                                Cancelar Cita
+                            </button>
+                        </form>
                     </a>
                 </td>
                 <td>
                     <a>
-                        <form action="/cita/delete/<%= cita.id %>"
+                        <form action="/cita/cita-realizada/<%= cita.id %>/<%=cita.doctor.id%>"
                               method="POST">
                             <button type="submit"
                                     class="btn btn-info">
-                                Eliminar
+                                Cita Realizada
                             </button>
                         </form>
                     </a>
@@ -49,10 +52,11 @@
                     <a href="/detalle/mostrar-detalle-historial/<%= cita.paciente.id %>">
                         <button type="button"
                                 class="btn btn-info">
-                            Ver Historial
+                            Historial Paciente
                         </button>
                     </a>
                 </td>
+
             </td>
         </tr>
     <%}); %>

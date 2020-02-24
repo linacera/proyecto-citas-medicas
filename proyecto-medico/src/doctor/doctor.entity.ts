@@ -1,6 +1,7 @@
-import { Column, Entity, Index, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { CitaEntity } from '../cita/cita.entity';
 import { DetalleHistorialEntity } from '../detalle-historial/detalle-historial.entity';
+import { UsuarioEntity } from '../usuario/usuario.entity';
 
 @Entity('doctor_proyecto')
 export class DoctorEntity {
@@ -82,5 +83,8 @@ export class DoctorEntity {
   )
   detalles: DetalleHistorialEntity[];
 
+  @OneToOne(type => UsuarioEntity, usuario => usuario.doctor)
+  @JoinColumn()
+  usuario: UsuarioEntity;
 
 }
